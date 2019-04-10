@@ -1,0 +1,23 @@
+<?php
+session_start();
+if (isset($_POST['girisyap'])){	
+	
+$db = new PDO("mysql:host=localhost;dbname=kutuphane;charset=utf8", "root", "");
+
+	$kullanici = $_POST['k_adi'];
+	$password = $_POST['k_password'];
+
+if (!$kullanici || !$kullanici) {
+    die("boş alan bırakmayınız!");
+}
+
+$user = $db->query("SELECT * FROM `kullanicitbl` WHERE k_adi = '$kullanici' AND k_password = '$password'")->fetch();
+
+if ($user) {
+    $_SESSION['user'] = $user;
+    header("location:kutuphaneindex.php");
+}else {
+    echo "<span style=color:red;> Kullanıcı Adı Veya Paralo Yanlış.</span>" . "<a href='giris.php' target='_self'><input type='Button' name='adon' value='Tekrar Deneyiniz'/></a>";
+	}
+}
+?>
